@@ -53,3 +53,5 @@ Com o intuito de maximizar o aprendizado e adotar práticas modernas de engenhar
 * Stefany Costa de Almeida
 
 **Professor Orientador:** Luiz Henrique Neves Rodrigues
+
+![Cronograma do Projeto](grafico_gantt.svg)
