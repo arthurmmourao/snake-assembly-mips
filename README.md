@@ -67,3 +67,4 @@ Com o intuito de maximizar o aprendizado e adotar práticas modernas de engenhar
 **Professor Orientador:** Luiz Henrique Neves Rodrigues
 
 ![Cronograma do Projeto](grafico_gantt.svg)
+![Vídeo Teste](VID-20260420-WA0021.mp4)
