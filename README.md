@@ -76,6 +76,5 @@ Com o intuito de maximizar o aprendizado e adotar práticas modernas de engenhar
 * Arthur Felipe Mourão de Oliveira
 * Cássio Herberth Rodrigues Araújo
 * Millena Gomes Andrade de Menezes Braga
-* Stefany Costa de Almeida
 
 **Professor Orientador:** Luiz Henrique Neves Rodrigues
