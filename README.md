@@ -1,3 +1,16 @@
+📦 snake-assembly-mips
+ ┣ 📂 src               (Pasta para os códigos-fonte)
+ ┃ ┣ 📜 SNAKEIB.asm
+ ┃ ┗ 📜 snake_mips-2.asm
+ ┣ 📂 docs              (Pasta para a documentação e relatórios)
+ ┃ ┣ 📜 grafico_gantt.svg
+ ┃ ┣ 📜 Relatório de Projeto_Snake.pdf
+ ┃ ┗ 📜 Relatório de Projeto_Snake (2).pdf
+ ┣ 📂 media             (Pasta para vídeos e imagens de teste)
+ ┃ ┗ 📜 VID-20260420-WA0021.mp4
+ ┗ 📜 README.md         (Fica na raiz, fora das pastas)
+
+
 # 🐍 Jogo Snake em Assembly MIPS
 
 [![Linguagem](https://img.shields.io/badge/Linguagem-Assembly_MIPS-blue.svg)]()
