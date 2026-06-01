@@ -1,29 +1,3 @@
-## 📁 Estrutura do Repositório
-
-O projeto está organizado da seguinte forma para facilitar a avaliação:
-
-- 📂 **`src/`** (Código-fonte)
-  - 📜 `SNAKEIB.asm`
-  - 📜 `snake_mips-2.asm`
-
-- 📂 **`docs/`** (Documentação e Relatórios)
-  - 📊 `grafico_gantt.svg`
-  - 📄 `Relatório de Projeto_Snake.pdf`
-  - 📄 `Relatório de Projeto_Snake (2).pdf`
-
-- 📂 **`media/`** (Vídeos e Testes)
-  - 🎥 `VID-20260420-WA0021.mp4`
-
----
-
-### 🛠️ Como Executar
-1. Clone este repositório.
-2. Abra o simulador **MARS 4.5**.
-3. Carregue o arquivo principal localizado na pasta `src/`.
-4. Configure o *Bitmap Display* e o *Keyboard and Display MMIO Simulator*.
-5. Pressione `F3` para montar e `F5` para executar.
-
-
 # 🐍 Jogo Snake em Assembly MIPS
 
 [![Linguagem](https://img.shields.io/badge/Linguagem-Assembly_MIPS-blue.svg)]()
