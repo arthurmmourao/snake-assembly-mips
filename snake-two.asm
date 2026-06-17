@@ -1,7 +1,7 @@
 # =============================================================================
-# GLOSSÁRIO DE INSTRUÇÕES MIPS:
-# lw   : Load Word (Carrega 4 bytes da memória para um registrador)
-# sw   : Store Word (Salva 4 bytes do registrador na memória)
+# GLOSSARIO DE INSTRUCOES MIPS:
+# lw   : Load Word (Carrega 4 bytes da memoria para um registrador)
+# sw   : Store Word (Salva 4 bytes do registrador na memoria)
 # li   : Load Immediate (Carrega um valor constante direto no registrador)
 # la   : Load Address (Carrega o endereço de memória de uma variável/rótulo)
 # add  : Soma dois registradores
@@ -16,8 +16,8 @@
 # jal  : Jump and Link (Salta para sub-rotina e salva o endereço de retorno)
 # jr   : Jump Register (Retorna de uma sub-rotina usando o registrador $ra)
 # div  : Divisão (Quociente vai para 'lo', resto para 'hi')
-# mflo : Move from LO (Move o quociente da divisão para um registrador)
-# mfhi : Move from HI (Move o resto da divisão para um registrador)
+# mflo : Move from LO (Move o quociente da divisÃ£o para um registrador)
+# mfhi : Move from HI (Move o resto da divisÃ£o para um registrador)
 # syscall : Chamada ao sistema operacional (I/O, arquivos, encerrar)
 #
 # REGISTRADORES COMUNS:
@@ -34,8 +34,11 @@
 velocidade:     .word 60
 cobra_tamanho:  .word 3
 direcao:        .word 2                   # 1=Cima, 2=Dir, 3=Baixo, 4=Esq
-cobra_col:      .word 32, 31, 30, 0:1020  # Vetor X (máx 1024 posições)
-cobra_lin:      .word 32, 32, 32, 0:1020  # Vetor Y (máx 1024 posições)
+cobra_col:      .word 32, 31, 30          # Posições X iniciais da cabeça e corpo
+                .space 4080               # Reserva espaço para o resto crescer (1020 * 4 bytes)
+                
+cobra_lin:      .word 32, 32, 32          # Posições Y iniciais da cabeça e corpo
+                .space 4080               # Reserva espaço para o resto crescer (1020 * 4 bytes)
 maca_col:       .word 40
 maca_lin:       .word 32
 
@@ -81,7 +84,7 @@ game_loop:
     # 2. Ler Input do Teclado
     jal  ler_teclado
 
-    # 3. Atualizar Estado Lógico
+    # 3. Atualizar Estado Lògico
     jal  atualizar_posicao
     jal  verificar_colisao
 
@@ -96,7 +99,7 @@ game_loop:
     j    game_loop
 
 # =============================================================================
-# LEITURA DE TECLADO E INTERRUPÇÃO SÍNCRONA (PAUSA)
+# LEITURA DE TECLADO E INTERRUPÇÃO SÌNCRONA (PAUSA)
 # =============================================================================
 ler_teclado:
     li   $t1, 0xFFFF0000       
@@ -124,11 +127,26 @@ processar_wasd:
     beq  $t2, $t3, set_dir
     j    fim_teclado
 
-set_cima:   li $t4, 1; sw $t4, direcao; j fim_teclado
-set_dir:    li $t4, 2; sw $t4, direcao; j fim_teclado
-set_baixo:  li $t4, 3; sw $t4, direcao; j fim_teclado
-set_esq:    li $t4, 4; sw $t4, direcao; j fim_teclado
+set_cima:   
+    li $t4, 1
+    sw $t4, direcao
+    j fim_teclado
 
+set_dir:    
+    li $t4, 2
+    sw $t4, direcao
+    j fim_teclado
+
+set_baixo:  
+    li $t4, 3
+    sw $t4, direcao
+    j fim_teclado
+
+set_esq:    
+    li $t4, 4
+    sw $t4, direcao
+    j fim_teclado
+    
 rotina_pausa:
     li   $t1, 0xFFFF0000       
     lw   $t0, 0($t1)           
@@ -179,15 +197,32 @@ move_cabeca:
     lw   $t1, cobra_col
     lw   $t2, cobra_lin
 
-    li   $t3, 1; beq $t0, $t3, sobe
-    li   $t3, 2; beq $t0, $t3, direita
-    li   $t3, 3; beq $t0, $t3, desce
-    li   $t3, 4; beq $t0, $t3, esquerda
+    li   $t3, 1
+    beq  $t0, $t3, sobe
+    
+    li   $t3, 2
+    beq  $t0, $t3, direita
+    
+    li   $t3, 3
+    beq  $t0, $t3, desce
+    
+    li   $t3, 4
+    beq  $t0, $t3, esquerda
 
-sobe:     addi $t2, $t2, -1; j salva_cabeca
-direita:  addi $t1, $t1, 1;  j salva_cabeca
-desce:    addi $t2, $t2, 1;  j salva_cabeca
-esquerda: addi $t1, $t1, -1
+sobe:     
+    addi $t2, $t2, -1
+    j salva_cabeca
+
+direita:  
+    addi $t1, $t1, 1
+    j salva_cabeca
+
+desce:    
+    addi $t2, $t2, 1
+    j salva_cabeca
+
+esquerda: 
+    addi $t1, $t1, -1
 
 salva_cabeca:
     sw   $t1, cobra_col
@@ -214,7 +249,7 @@ verificar_colisao:
     addi $t5, $t5, 1
     sw   $t5, cobra_tamanho
 
-    # Gera nova maçã (Syscall RNG - Pseudo Aleatório)
+    # Gera nova maça (Syscall RNG - Pseudo Aleatório)
     li   $v0, 42
     li   $a1, 62               # Limite máx 62
     syscall
@@ -328,7 +363,7 @@ game_over:
     lw   $t0, cobra_tamanho
     li   $t1, 0
 
-    # 1. Guarda Score na Memória RAM
+    # 1. Guarda Score na Memôria RAM
     lw   $t2, cobra_tamanho
     addi $t2, $t2, -3           
     sw   $t2, buffer_score
@@ -348,7 +383,7 @@ game_over:
     li   $a2, 4                   
     syscall
 
-    # 4. Syscall 16: Fecha arquivo (Gera pulso de atualização pro JS via Live Server)
+    # 4. Syscall 16: Fecha arquivo (Gera pulso de atualizaÃ§Ã£o pro JS via Live Server)
     li   $v0, 16                  
     move $a0, $s0
     syscall
