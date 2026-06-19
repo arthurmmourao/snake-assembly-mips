@@ -1,5 +1,35 @@
 # =============================================================================
-# JOGO DA COBRINHA (SNAKE) EM ASSEMBLY MIPS - VERS�O TELA GRANDE (64x64)
+# GLOSSARIO DE INSTRUCOES MIPS:
+# lw   : Load Word (Carrega 4 bytes da memoria para um registrador)
+# sw   : Store Word (Salva 4 bytes do registrador na memoria)
+# li   : Load Immediate (Carrega um valor constante direto no registrador)
+# la   : Load Address (Carrega o endereço de memória de uma variável/rótulo)
+# add  : Soma dois registradores
+# addi : Soma um registrador com uma constante (Immediate)
+# sub  : Subtração
+# sll  : Shift Left Logical (Desloca bits à esquerda = Multiplica por potências de 2)
+# beq  : Branch if Equal (Desvio condicional: pula se valores forem iguais)
+# bne  : Branch if Not Equal (Desvio condicional: pula se valores forem diferentes)
+# bge  : Branch if Greater or Equal (Pula se maior ou igual)
+# bltz : Branch if Less Than Zero (Pula se menor que zero)
+# j    : Jump (Salto incondicional para um rótulo)
+# jal  : Jump and Link (Salta para sub-rotina e salva o endereço de retorno)
+# jr   : Jump Register (Retorna de uma sub-rotina usando o registrador $ra)
+# div  : Divisão (Quociente vai para 'lo', resto para 'hi')
+# mflo : Move from LO (Move o quociente da divisÃ£o para um registrador)
+# mfhi : Move from HI (Move o resto da divisÃ£o para um registrador)
+# syscall : Chamada ao sistema operacional (I/O, arquivos, encerrar)
+#
+# REGISTRADORES COMUNS:
+# $v0, $v1 : Códigos de operação para syscalls e retornos de funções
+# $a0-$a3  : Argumentos passados para funções ou syscalls
+# $t0-$t9  : Temporários (podem ser sobrescritos livremente)
+# $s0-$s7  : Salvos (devem ser preservados ou restaurados)
+# $sp      : Stack Pointer (Ponteiro da pilha)
+# $ra      : Return Address (Guarda endereço de retorno do jal)
+
+# =============================================================================
+# JOGO DA COBRINHA (SNAKE) EM ASSEMBLY MIPS - VERSÃO TELA GRANDE (64x64)
 # =============================================================================
 
 .data
@@ -25,11 +55,11 @@ msg_inicio:    .asciiz "=== SNAKE MIPS - Pressione ESPACO para iniciar ===\n"
 msg_gameover:  .asciiz "\n=== GAME OVER! ===\nPontuacao (tamanho): "
 newline:       .asciiz "\n"
 
-# Dicion�rio de convers�o para o Display de 7 Segmentos
+# Dicionário de conversão para o Display de 7 Segmentos
 display_7seg: .byte 0x3F, 0x06, 0x5B, 0x4F, 0x66, 0x6D, 0x7D, 0x07, 0x7F, 0x6F
     
 pontuacao:    .word 0
-velocidade:   .word 400        # Come�a em 400ms
+velocidade:   .word 400        # Começa em 400ms
 
 .text
 .globl main
@@ -63,7 +93,7 @@ main:
     jal  desenhar_cobra_completa
     jal  atualizar_display
     
-# --- NOVA TELA DE ESPERA (Aguarda ESPA�O) ---
+# --- NOVA TELA DE ESPERA (Aguarda ESPAÇO) ---
 tela_espera:
     li   $t1, 0xFFFF0000
     lw   $t0, 0($t1)
@@ -72,7 +102,7 @@ tela_espera:
 
     li   $t1, 0xFFFF0004
     lw   $t2, 0($t1)
-    li   $t3, 32               # ASCII do ESPA�O
+    li   $t3, 32               # ASCII do ESPAÇO
     bne  $t2, $t3, tela_espera
 # --------------------------------------------
 
@@ -109,7 +139,7 @@ inicializar_cobra:
     la   $t0, cobra_col
     la   $t1, cobra_lin
 
-    li   $t2, 32            # Cobra come�a no meio da nova tela (X=32, Y=32)
+    li   $t2, 32            # Cobra começa no meio da nova tela (X=32, Y=32)
     sw   $t2, 0($t0)
     sw   $t2, 0($t1)
 
@@ -221,7 +251,7 @@ ler_teclado:
     li   $t1, 0xFFFF0004
     lw   $t1, 0($t1)
 
-    # --- VERIFICA��O DE PAUSA ('P' ou 'p') ---
+    # --- VERIFICAÇÃO DE PAUSA ('P' ou 'p') ---
     li   $t4, 112       
     beq  $t1, $t4, rotina_pausa
     li   $t4, 80        
@@ -675,7 +705,7 @@ rc_cab:
 # =============================================================================
 atualizar_display:
     lw   $t0, cobra_tamanho
-    addi $t0, $t0, -3          # O placar real � o tamanho - 3
+    addi $t0, $t0, -3          # O placar real é o tamanho - 3
 
     li   $t1, 10
     div  $t0, $t1
@@ -705,7 +735,7 @@ game_over:
     lw   $t0, cobra_tamanho
     li   $t1, 0
 
-    # --- INTEGRA��O WEB (Gera��o do score.bin) ---
+    # --- INTEGRAÇÃO WEB (Geração do score.bin) ---
     addi $t2, $t0, -3          # Calcula o score real
     sw   $t2, buffer_score
 
